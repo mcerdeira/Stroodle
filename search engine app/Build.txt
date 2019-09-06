@@ -1,0 +1,3 @@
+- Compile in dist
+- Copy contents to stroodle-app git repository
+- Add index.php and composer.json to folder root to trick heroky to build the app as PHP
