@@ -7,6 +7,12 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.options('*', cors());
 
+app.get('/warmup', (req, res) => {    
+    db_actions.GetAutoData("something", function(data){
+        res.send(data);
+    });
+});
+
 app.get('/query/:queryString', (req, res) => {    
     db_actions.GetData(req.params.queryString, function(data){
         res.send(data);

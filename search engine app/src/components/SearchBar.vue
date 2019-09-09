@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <input ref="search_input" placeholder="Search by song name" @keyup="trigger_typing" class="form-control input-sm" autocomplete="off" @keyup.enter="trigger_click" autofocus v-model="query" id="search_text" type="text">
-        <option v-for="s in autocompleteResult" @click="trigger_option_clicked($event)" :key="s.song" id = "option1">{{s.song}}</option>
+        <option v-for="s in autocompleteResult" @click="trigger_option_clicked($event)" :key="s.song">{{s.song}}</option>
         <br>
         <button class="btn btn-light" type="submit" @click="search_clicked" ref="button_search">Search</button>
         <br>      
@@ -67,7 +67,6 @@ export default {
         let query = this.query;
         let base_url = process.env.VUE_APP_AUTO_API;
         let url = `${base_url}/${query}`;
-        console.log(url);
         fetch(url)
             .then(
                 function(response) {
@@ -139,6 +138,8 @@ details {
 option{
     text-align:left;
 }
+
+option:checked { background-color: grey; }
 
 summary {
     margin: -.5em -.5em 0;
