@@ -1,6 +1,7 @@
 <template>
     <div class="container">
-        <input placeholder="Search term" class="form-control input-sm" @keyup.enter="trigger_click" autofocus v-model="query" id="search_text" type="text">
+        <input ref="search_input" placeholder="Search by song name" @keyup="trigger_typing" class="form-control input-sm" autocomplete="off" @keyup.enter="trigger_click" autofocus v-model="query" id="search_text" type="text">
+        <option v-for="s in autocompleteResult" @click="trigger_option_clicked($event)" :key="s.song" id = "option1">{{s.song}}</option>
         <br>
         <button class="btn btn-light" type="submit" @click="search_clicked" ref="button_search">Search</button>
         <br>      
@@ -55,11 +56,42 @@ export default {
         this.result = data;
     },
 
+    trigger_option_clicked: function(event){
+        let song = event.target.value;
+        this.query = song;        
+        this.$refs.button_search.click();
+    },
+
+    trigger_typing: function(){
+        this.autocompleteResult = []
+        let query = this.query;
+        let base_url = process.env.VUE_APP_AUTO_API;
+        let url = `${base_url}/${query}`;
+        console.log(url);
+        fetch(url)
+            .then(
+                function(response) {
+                    console.log(response.status);
+                    if (response.status !== 200) {
+                        console.log(response.json);
+                        return;
+                    } else {
+                        response.json().then(function(d) {
+                            console.log(d);
+                            this.autocompleteResult = d;
+                        }.bind(this));
+                    }
+                }.bind(this)
+            );
+        //this.autocompleteResult = [{"song":"Pepe Mujica"},{"song":"Pepe se aleja"},{"song":"Pepe's Suicide - Part 1"},{"song":"Pepe's Suicide - Part 2 / Westford Murdered"},{"song":"Pepernoten chaos!"}];
+    },
+
     trigger_click: function(){
         this.$refs.button_search.click();
     },
 
     search_clicked: function(event){      
+      this.autocompleteResult = [];
       this.showResult = true;
       this.processing = true;
       this.result = []
@@ -91,7 +123,8 @@ export default {
         processing: false,
         showResult: false,
         query: "",
-        result: []
+        result: [],
+        autocompleteResult: [],
       }
   },
 }
@@ -101,6 +134,10 @@ export default {
 details {
     padding: .5em .5em 0;
 	background: rgb(196, 187, 187);
+}
+
+option{
+    text-align:left;
 }
 
 summary {

@@ -13,6 +13,12 @@ app.get('/query/:queryString', (req, res) => {
     });
 });
 
+app.get('/autoquery/:queryString', (req, res) => {    
+    db_actions.GetAutoData(req.params.queryString, function(data){
+        res.send(data);
+    });
+});
+
 app.use(function (req, res) {
     res.status(404).send();
 });

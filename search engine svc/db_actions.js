@@ -18,4 +18,20 @@ let GetData = function (queryString, retFunc) {
     });
 }
 
+let GetAutoData = function(queryString, retFunc){
+	let sql =  "select distinct song";
+				sql+= " from songs";
+				sql+= " where song like ? || '%'";
+				sql+= " order by song";
+				sql+= " LIMIT 5";
+    let params = [queryString];
+    db.all(sql, params, (err, rows) => {
+        if (err) {
+            retFunc([{ "error": err.message }]);
+        }
+        retFunc(rows);
+    });
+}
+
 module.exports.GetData = GetData;
+module.exports.GetAutoData = GetAutoData;
