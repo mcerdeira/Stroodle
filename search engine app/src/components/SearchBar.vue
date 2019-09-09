@@ -139,7 +139,7 @@ option{
     text-align:left;
 }
 
-option:checked { background-color: grey; }
+option:hover { background-color: #EAEAEA; }
 
 summary {
     margin: -.5em -.5em 0;

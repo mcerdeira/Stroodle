@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <img title="Strudel means 'whirlpool' in German" alt="Vue logo" src="./assets/logo.png">
-    <p>v0.1.6</p>
+    <p>v0.1.7</p>
     <SearchBar/>    
   </div>
 </template>
